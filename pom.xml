@@ -15,6 +15,7 @@
         <module>itrip-biz</module>
         <module>itrip-search</module>
         <module>itrip-trade</module>
+        <module>Demo</module>
     </modules>
 
     <packaging>pom</packaging>
