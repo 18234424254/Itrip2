@@ -39,10 +39,12 @@
         <servlet.version>3.1</servlet.version>
         <solrj.version>7.7.2</solrj.version>
         <fileupload.version>1.3.1</fileupload.version>
+        <c3po.version>0.9.5.2</c3po.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -115,7 +117,7 @@
                 <version>${swagger.version}</version>
             </dependency>
             <dependency>
-                <groupId>c3p0</groupId>
+                <groupId>com.mchange</groupId>
                 <artifactId>c3p0</artifactId>
                 <version>${c3p0.version}</version>
             </dependency>
