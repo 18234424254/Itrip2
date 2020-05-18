@@ -10,5 +10,5 @@ public class Constants {
     //默认页大小
     public static final Integer DEFAULT_PAGE_SIZE = 10;
 
-
+    public static final String PHONE_SMS_ACTIVE_PREFIX="activation";
 }
