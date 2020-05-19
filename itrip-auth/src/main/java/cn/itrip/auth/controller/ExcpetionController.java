@@ -13,10 +13,10 @@ public class ExcpetionController {
     @ExceptionHandler(AuthExcepiton.class)
     public Dto handleAuthExcpetion(Exception e){
         e.printStackTrace();
-        return DtoUtil.returnFail("auth未知异常", ErrorCode.AUTH_UNKNOWN);
+        return DtoUtil.returnFail(e.getMessage(), ErrorCode.AUTH_UNKNOWN);
     }
 
-    @ExceptionHandler(AuthExcepiton.class)
+    @ExceptionHandler(Exception.class)
     public Dto handleExcpetion(Exception e){
         e.printStackTrace();
         return DtoUtil.returnFail("系统未知异常", ErrorCode.AUTH_UNKNOWN);

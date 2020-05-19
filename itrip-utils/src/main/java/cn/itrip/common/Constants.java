@@ -10,5 +10,14 @@ public class Constants {
     //默认页大小
     public static final Integer DEFAULT_PAGE_SIZE = 10;
 
-    public static final String PHONE_SMS_ACTIVE_PREFIX="activation";
+    public static final String PHONE_SMS_ACTIVE_PREFIX="activation:";
+
+    //token前缀
+    public static  final String TOKEN_PRIFIX="token:";
+
+    public static  final Integer TOKEN_EXPIRE=2;
+
+    public static  final Integer TOKEN_PROTECT_TIME=1;
+
+
 }
