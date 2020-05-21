@@ -92,4 +92,9 @@ public class UserServiceImpl implements UserService {
         itripUserMapper.deleteItripUserById(itripUser.getId());
         return false;
     }
+    //更新用户信息
+    @Override
+    public void updateItpirUser(ItripUser itripUser)throws Exception {
+        itripUserMapper.updateItripUser(itripUser);
+    }
 }

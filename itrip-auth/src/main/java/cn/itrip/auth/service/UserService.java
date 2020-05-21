@@ -8,4 +8,6 @@ public interface UserService {
     void itriptxCreateuserItripUser(ItripUser itripUser)throws Exception;
 
     Boolean itriptxValidateSmsCode(String userCode, String smsCode) throws Exception;
+
+    void updateItpirUser(ItripUser itripUser)throws  Exception;
 }
