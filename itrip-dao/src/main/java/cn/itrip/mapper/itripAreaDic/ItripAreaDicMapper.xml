@@ -222,4 +222,13 @@
     <delete id="deleteItripAreaDicById" parameterType="Long">
         delete from itrip_area_dic where id = #{id}
     </delete>
+
+    <!--根据酒店id查询所属商圈列表-->
+     <select id="getItripAreaDicListByHotelId" parameterType="long" resultType="cn.itrip.beans.pojo.ItripAreaDic">
+         select *
+         from itrip_area_dic
+         where id in (select areaId from itrip_hotel_trading_area where hotelId=#{id})
+     </select>
+
+
 </mapper>

@@ -73,7 +73,7 @@ public class ItripSearchServiceImpl implements ItripSearchService {
         String featureIds = searchHotelVO.getFeatureIds();
         if (featureIds!=null){
             String[] split = featureIds.split(",");
-            sb3.append("featureIds:(");
+            sb4.append("featureIds:(");
             for (int i=0; i < split.length;i++) {
                 if (i==0){
                     sb4.append("*"+split[i]+"*");

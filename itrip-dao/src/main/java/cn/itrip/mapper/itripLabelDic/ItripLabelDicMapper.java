@@ -18,4 +18,6 @@ public interface ItripLabelDicMapper {
 
 	public Integer deleteItripLabelDicById(@Param(value = "id") Long id)throws Exception;
 
+	//根据酒店id查询特色
+	List<ItripLabelDic> getItripLabelDicListByHotelId(Long hotelId);
 }

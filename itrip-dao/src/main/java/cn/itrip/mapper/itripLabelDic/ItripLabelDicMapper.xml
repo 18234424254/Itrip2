@@ -170,4 +170,10 @@
     <delete id="deleteItripLabelDicById" parameterType="Long">
         delete from itrip_label_dic where id = #{id}
     </delete>
+    <!--根据酒店id查询酒店特色-->
+    <select id="getItripLabelDicListByHotelId" parameterType="long" resultType="cn.itrip.beans.pojo.ItripLabelDic">
+        select *
+        from  itrip_label_dic
+        where id in(select featureId from itrip_hotel_feature where hotelId=#{id})
+    </select>
 </mapper>
