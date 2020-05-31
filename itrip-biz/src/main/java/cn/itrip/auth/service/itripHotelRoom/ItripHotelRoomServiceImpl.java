@@ -1,13 +1,17 @@
 package cn.itrip.auth.service.itripHotelRoom;
+import cn.itrip.beans.vo.hotelroom.ItripHotelRoomVO;
+import cn.itrip.beans.vo.hotelroom.SearchHotelRoomVO;
+import cn.itrip.common.DateUtil;
 import cn.itrip.mapper.itripHotelRoom.ItripHotelRoomMapper;
 import cn.itrip.beans.pojo.ItripHotelRoom;
 import cn.itrip.common.EmptyUtils;
 import cn.itrip.common.Page;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
+
 import cn.itrip.common.Constants;
 @Service
 public class ItripHotelRoomServiceImpl implements ItripHotelRoomService {
@@ -51,6 +55,46 @@ public class ItripHotelRoomServiceImpl implements ItripHotelRoomService {
         List<ItripHotelRoom> itripHotelRoomList = itripHotelRoomMapper.getItripHotelRoomListByMap(param);
         page.setRows(itripHotelRoomList);
         return page;
+    }
+
+    /**
+     * 查询酒店房型列表
+     * @param searchHotelRoomVO 查询条件
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<ItripHotelRoomVO> getItripHotelRoomBySearchVo(SearchHotelRoomVO searchHotelRoomVO)throws Exception {
+        Date startDate = searchHotelRoomVO.getStartDate();
+        Date endDate = searchHotelRoomVO.getEndDate();
+        //把时间区间内的日期转换为list集合
+        List<Date> dateList = DateUtil.getBetweenDates(startDate, endDate);
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("hotelId",searchHotelRoomVO.getHotelId());
+        param.put("payType",searchHotelRoomVO.getPayType());
+        param.put("isCancel",searchHotelRoomVO.getIsCancel());
+        param.put("roomBedTypeId",searchHotelRoomVO.getRoomBedTypeId());
+        param.put("isTimelyResponse",searchHotelRoomVO.getIsTimelyResponse());
+        param.put("isHavingBreakfast",searchHotelRoomVO.getIsHavingBreakfast());
+        param.put("isBook",searchHotelRoomVO.getIsBook());
+
+        param.put("dateList",dateList);//自定义字段查询时间区间内是否有库存的房型
+
+
+
+        List<ItripHotelRoom> roomList = itripHotelRoomMapper.getItripHotelRoomListByMap(param);
+        List<ItripHotelRoomVO> roomVOList= new ArrayList<>();
+        for (ItripHotelRoom room : roomList) {
+            ItripHotelRoomVO roomVO = new ItripHotelRoomVO();
+            BeanUtils.copyProperties(room,roomVO);
+            //ItripHotelRoom中的房间价格weidouble无法自动cope到ItripHotelRoomVO里面 需要手动解决
+            roomVO.setRoomPrice(new BigDecimal(room.getRoomPrice()));
+            roomVOList.add(roomVO);
+        }
+
+
+        return roomVOList;
     }
 
 }

@@ -21,7 +21,7 @@ public class DateUtil {
      * @param end 结束日期
      * @return 日期字符串格式的集合
      */
-    public static List<Date> getBetweenDates(Date start, Date end) {
+    public static List<Date>    getBetweenDates(Date start, Date end) {
         List<Date> result = new ArrayList<Date>();
         Calendar tempStart = Calendar.getInstance();
         tempStart.setTime(start);

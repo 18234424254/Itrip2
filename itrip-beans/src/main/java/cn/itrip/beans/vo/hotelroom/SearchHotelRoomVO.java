@@ -1,6 +1,7 @@
 package cn.itrip.beans.vo.hotelroom;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,9 +24,11 @@ public class SearchHotelRoomVO implements Serializable{
     private Integer isTimelyResponse;
     @ApiModelProperty("[非必填] 床型ID")
     private Long roomBedTypeId;
-    @ApiModelProperty("[必填] 入职日期")
+    @ApiModelProperty("[必填] 入住日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @ApiModelProperty("[必填] 退房日期")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     @ApiModelProperty("[非必填] 是否可取消(0:不可以 1:可以)")
     private Integer isCancel;
