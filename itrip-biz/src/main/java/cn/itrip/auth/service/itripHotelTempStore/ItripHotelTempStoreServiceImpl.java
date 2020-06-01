@@ -1,4 +1,6 @@
 package cn.itrip.auth.service.itripHotelTempStore;
+import cn.itrip.beans.vo.order.RoomStoreVO;
+import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
 import cn.itrip.mapper.itripHotelTempStore.ItripHotelTempStoreMapper;
 import cn.itrip.beans.pojo.ItripHotelTempStore;
 import cn.itrip.common.EmptyUtils;
@@ -52,5 +54,25 @@ public class ItripHotelTempStoreServiceImpl implements ItripHotelTempStoreServic
         page.setRows(itripHotelTempStoreList);
         return page;
     }
+
+    /**
+     * 查询可预订剩余库存
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<ItripHotelTempStore> getItripStoreListByMap(Map<String, Object> param) throws Exception {
+        //刷新库存
+        itripHotelTempStoreMapper.flushTempStore(param);
+
+        //查询并计算
+        List<ItripHotelTempStore> storeList = itripHotelTempStoreMapper.getItripStoreListByMap(param);
+
+
+
+        return storeList;
+    }
+
 
 }

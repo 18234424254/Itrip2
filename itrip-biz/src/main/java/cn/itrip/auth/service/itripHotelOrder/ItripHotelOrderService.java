@@ -3,6 +3,8 @@ import cn.itrip.beans.pojo.ItripHotelOrder;
 import java.util.List;
 import java.util.Map;
 
+import cn.itrip.beans.vo.order.RoomStoreVO;
+import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
 import cn.itrip.common.Page;
 /**
 * Created by shang-pc on 2015/11/7.
@@ -22,4 +24,6 @@ public interface ItripHotelOrderService {
     public Integer itriptxDeleteItripHotelOrderById(Long id)throws Exception;
 
     public Page<ItripHotelOrder> queryItripHotelOrderPageByMap(Map<String,Object> param,Integer pageNo,Integer pageSize)throws Exception;
+    //获取订单预定信息
+    RoomStoreVO getPreOrderInfo(ValidateRoomStoreVO storeVO)throws  Exception ;
 }
