@@ -8,7 +8,7 @@ public interface ItripHotelOrderMapper {
 
 	public ItripHotelOrder getItripHotelOrderById(@Param(value = "id") Long id)throws Exception;
 
-	public List<ItripHotelOrder>	getItripHotelOrderListByMap(Map<String,Object> param)throws Exception;
+	public List<ItripHotelOrder> getItripHotelOrderListByMap(Map<String,Object> param)throws Exception;
 
 	public Integer getItripHotelOrderCountByMap(Map<String,Object> param)throws Exception;
 

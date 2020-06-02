@@ -63,7 +63,7 @@ public class ItripHotelTempStoreServiceImpl implements ItripHotelTempStoreServic
      */
     @Override
     public List<ItripHotelTempStore> getItripStoreListByMap(Map<String, Object> param) throws Exception {
-        //刷新库存
+        //刷新库存 （把实时库存表中没记录的查询日期进行插入记录
         itripHotelTempStoreMapper.flushTempStore(param);
 
         //查询并计算

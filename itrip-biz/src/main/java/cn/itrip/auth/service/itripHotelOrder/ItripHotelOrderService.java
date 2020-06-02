@@ -3,6 +3,7 @@ import cn.itrip.beans.pojo.ItripHotelOrder;
 import java.util.List;
 import java.util.Map;
 
+import cn.itrip.beans.pojo.ItripUserLinkUser;
 import cn.itrip.beans.vo.order.RoomStoreVO;
 import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
 import cn.itrip.common.Page;
@@ -26,4 +27,10 @@ public interface ItripHotelOrderService {
     public Page<ItripHotelOrder> queryItripHotelOrderPageByMap(Map<String,Object> param,Integer pageNo,Integer pageSize)throws Exception;
     //获取订单预定信息
     RoomStoreVO getPreOrderInfo(ValidateRoomStoreVO storeVO)throws  Exception ;
+    //查询是否有库存
+    boolean validateRoomStore(ValidateRoomStoreVO storeVO)throws Exception;
+    //计算总金额
+    Double calcPayAmount(Double roomPrice, int bookingDays, Integer count)throws Exception;
+    //生成订单
+    Long itriptxAddItripHotelOrder(ItripHotelOrder order, List<ItripUserLinkUser> linkUser) throws Exception;
 }
