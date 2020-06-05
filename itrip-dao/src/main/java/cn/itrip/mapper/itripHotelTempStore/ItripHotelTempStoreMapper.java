@@ -21,4 +21,6 @@ public interface ItripHotelTempStoreMapper {
     void flushTempStore(Map<String, Object> param)throws Exception;
 	//查询并计算剩余库存
 	List<ItripHotelTempStore> getItripStoreListByMap(Map<String, Object> param)throws Exception;
+
+    void updateTempStore(Map<String, Object> param)throws Exception;
 }

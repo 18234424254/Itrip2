@@ -391,4 +391,10 @@
     <delete id="deleteItripHotelOrderById" parameterType="Long">
         delete from itrip_hotel_order where id = #{id}
     </delete>
+
+    <update id="flushOrderStatus">
+        update itrip_hotel_order set orderStatus=1
+        where orderStatus=0
+        and TIMESTAMPDIFF(SECOND,creationDate,NOW())>2*60*60
+    </update>
 </mapper>

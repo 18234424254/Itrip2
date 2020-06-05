@@ -9,11 +9,13 @@ import cn.itrip.beans.pojo.ItripHotelRoom;
 import cn.itrip.beans.pojo.ItripUser;
 import cn.itrip.beans.pojo.ItripUserLinkUser;
 import cn.itrip.beans.vo.order.ItripAddHotelOrderVO;
+import cn.itrip.beans.vo.order.ItripModifyHotelOrderVO;
 import cn.itrip.beans.vo.order.RoomStoreVO;
 import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
 import cn.itrip.common.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +67,13 @@ public class HotelOrderController {
         return DtoUtil.returnDataSuccess(roomStoreVO);
     }
 
+    /**
+     * 修改订房日期验证是否有房
+     * @param storeVO
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/validateroomstore")
     public Dto validateRoomStore(@RequestBody ValidateRoomStoreVO storeVO,HttpServletRequest request) throws Exception {
         //登录验证
@@ -144,14 +153,50 @@ public class HotelOrderController {
         orderNo.append(MD5.getMd5(""+roomId+System.currentTimeMillis()+(Math.random()*900000+100000),6));
         order.setOrderNo(orderNo.toString());
 
-
         Long orderId = itripHotelOrderService.itriptxAddItripHotelOrder(order, linkUser);
         Map<String,Object> result= new HashMap<>();
         result.put("orderId",orderId);
-
         return DtoUtil.returnDataSuccess(result);
 
     }
+
+    @PostMapping("/updateorderstatusandpaytype")
+    public Dto updateOrderStatusAndPayType(@RequestBody ItripModifyHotelOrderVO orderVO,HttpServletRequest request) throws Exception {
+        //验证参数
+        if (orderVO == null||orderVO.getId()==null||orderVO.getPayType()==null) {
+            return DtoUtil.returnFail("参数和必填不能为空","100523");
+        }
+        //登录验证
+        /*String token = request.getHeader("token");
+        ItripUser user = validationToken.getCurrentUser(token);
+        if (user == null) {
+            return DtoUtil.returnFail("token认证失败,请重新登录","100000");
+        }*/
+        ItripHotelOrder order = itripHotelOrderService.getItripHotelOrderById(orderVO.getId());
+        //验证支付类型是否支持
+        Boolean isSupport = itripHotelOrderService.isSupportPayType(order.getRoomId(),orderVO);
+        if (!isSupport) {
+            return DtoUtil.returnFail("不支持支付类型","100521");
+        }
+
+        //修改订单
+        order.setPayType(orderVO.getPayType());
+        order.setOrderStatus(2);
+        order.setModifyDate(new Date());
+        itripHotelOrderService.itriptxModifyItripHotelOrderAndTempStore(order);
+
+        return DtoUtil.returnDataSuccess("修改订单状态成功!");
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 }

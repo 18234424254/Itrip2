@@ -3,6 +3,7 @@ import cn.itrip.auth.service.itripHotel.ItripHotelService;
 import cn.itrip.auth.service.itripHotelRoom.ItripHotelRoomService;
 import cn.itrip.auth.service.itripHotelTempStore.ItripHotelTempStoreService;
 import cn.itrip.beans.pojo.*;
+import cn.itrip.beans.vo.order.ItripModifyHotelOrderVO;
 import cn.itrip.beans.vo.order.RoomStoreVO;
 import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
 import cn.itrip.common.BigDecimalUtil;
@@ -10,6 +11,7 @@ import cn.itrip.mapper.itripHotelOrder.ItripHotelOrderMapper;
 import cn.itrip.common.EmptyUtils;
 import cn.itrip.common.Page;
 import cn.itrip.mapper.itripOrderLinkUser.ItripOrderLinkUserMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -182,4 +184,72 @@ public class ItripHotelOrderServiceImpl implements ItripHotelOrderService {
         return order.getId();
     }
 
+    /**
+     *判断是否支持支付类型
+     * @param orderVO
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Boolean isSupportPayType(Long roomId,ItripModifyHotelOrderVO orderVO) throws Exception {
+        ItripHotelRoom room = itripHotelRoomService.getItripHotelRoomById(roomId);
+        //房间支持的支付类型
+        Integer roompayType = room.getPayType();
+        //用户选择的支付类型
+        Integer payType = orderVO.getPayType();
+        return (roompayType&payType)!=0;
+    }
+
+    /**
+     * 修改实时库存
+     * @param order
+     * @throws Exception
+     */
+    @Override
+    public void itriptxModifyItripHotelOrderAndTempStore(ItripHotelOrder order) throws Exception {
+        //四顾实时库存
+        Map<String,Object> param = new HashMap<>();
+        param.put("roomId",order.getRoomId());
+        param.put("checkInDate",order.getCheckInDate());
+        param.put("checkOutDate",order.getCheckOutDate());
+        param.put("count",order.getCount());
+        itripHotelTempStoreService.updateTempStore(param);
+        //修改订单状态
+        this.itriptxModifyItripHotelOrder(order);
+    }
+
+    /**
+     * 刷新支付超时的订单
+     *
+     *    假如12.59点整生成订单，1点扫描，3点扫描，美妙扫描误差最小 效率最低
+     *    2小时扫描效率最高 误差大 应该平衡效率与误差，取合适的时间间隔扫描数据库订单表
+     *
+     */
+    @Scheduled(cron = "* 0/10 * * * ?")//触发器
+    public void flushOrderStatus()throws  Exception{//任务job
+
+        System.out.println("hello==="+System.currentTimeMillis());
+
+        //修改订单状态（当前时间减去生成时间大于2小时的订单状态
+            itripHotelOrderMapper.flushOrderStatus();
+    }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

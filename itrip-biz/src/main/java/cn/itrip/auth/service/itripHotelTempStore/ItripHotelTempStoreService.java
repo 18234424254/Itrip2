@@ -26,4 +26,6 @@ public interface ItripHotelTempStoreService {
     public Page<ItripHotelTempStore> queryItripHotelTempStorePageByMap(Map<String,Object> param,Integer pageNo,Integer pageSize)throws Exception;
     //查询指定区间可预订的剩余库存
     List<ItripHotelTempStore> getItripStoreListByMap(Map<String, Object> param)throws Exception;
+    //下单成功后 更新实时库存
+    void updateTempStore(Map<String, Object> param)throws Exception;
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.itrip.beans.pojo.ItripUserLinkUser;
+import cn.itrip.beans.vo.order.ItripModifyHotelOrderVO;
 import cn.itrip.beans.vo.order.RoomStoreVO;
 import cn.itrip.beans.vo.order.ValidateRoomStoreVO;
 import cn.itrip.common.Page;
@@ -33,4 +34,9 @@ public interface ItripHotelOrderService {
     Double calcPayAmount(Double roomPrice, int bookingDays, Integer count)throws Exception;
     //生成订单
     Long itriptxAddItripHotelOrder(ItripHotelOrder order, List<ItripUserLinkUser> linkUser) throws Exception;
+
+    //修改订单状态和实时库存表
+    void itriptxModifyItripHotelOrderAndTempStore(ItripHotelOrder order)throws Exception;
+
+    Boolean isSupportPayType(Long roomId, ItripModifyHotelOrderVO orderVO)throws Exception;
 }
