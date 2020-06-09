@@ -139,13 +139,13 @@
                     <if test="imgUrl != null and imgUrl!=''">
                         imgUrl=#{imgUrl},
                     </if>
-                    <if test="creationDate != null and creationDate!=''">
+                    <if test="creationDate != null ">
                         creationDate=#{creationDate},
                     </if>
                     <if test="createdBy != null and createdBy!=''">
                         createdBy=#{createdBy},
                     </if>
-                    <if test="modifyDate != null and modifyDate!=''">
+                    <if test="modifyDate != null ">
                         modifyDate=#{modifyDate},
                     </if>
                     <if test="modifiedBy != null and modifiedBy!=''">
